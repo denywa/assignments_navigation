@@ -6,12 +6,17 @@ class FirstScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String message =
+        ModalRoute.of(context)!.settings.arguments as String? ??
+            'Welcome to the First Screen';
+
     return Scaffold(
       appBar: AppBar(title: Text('First Screen')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(message),
             TextField(
               controller: _controller,
               keyboardType: TextInputType.number,

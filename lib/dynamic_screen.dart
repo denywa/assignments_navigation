@@ -39,7 +39,15 @@ class GeneratedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Screen $index')),
+      appBar: AppBar(
+          title: Text('Screen $index'),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/first', (route) => false,
+                    arguments: 'Hello from screen number $index');
+              },
+              icon: Icon(Icons.arrow_back))),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -48,12 +56,13 @@ class GeneratedScreen extends StatelessWidget {
             if (index < total) // Check if there is a next screen
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
                           GeneratedScreen(index: index + 1, total: total),
                     ),
+                    (route) => false,
                   );
                 },
                 child: Text('Go to Next Screen'),
@@ -61,9 +70,14 @@ class GeneratedScreen extends StatelessWidget {
             if (index == total) // If it's the last screen
               ElevatedButton(
                 onPressed: () {
-                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/first',
+                    (route) => false,
+                    arguments: 'Hello from the screen number $index',
+                  );
                 },
-                child: Text('Back to First Screen'),
+                child: Text('Go Back to First Screen'),
               ),
           ],
         ),
