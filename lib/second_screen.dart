@@ -3,15 +3,25 @@ import 'package:flutter/material.dart';
 class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final String message = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(title: Text('Second Screen')),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigate to the third screen using named route
-            Navigator.pushNamed(context, '/third');
-          },
-          child: Text('Go to Third Screen'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(message),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/third',
+                  arguments: 'Hello from the Second Screen',
+                );
+              },
+              child: Text('Go to Third Screen'),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -23,6 +33,7 @@ class SecondScreen extends StatelessWidget {
                 context,
                 '/first',
                 (route) => false,
+                arguments: 'Hello from the Second Screen',
               );
               break;
             case 1:
@@ -32,6 +43,7 @@ class SecondScreen extends StatelessWidget {
                 context,
                 '/third',
                 (route) => false,
+                arguments: 'Hello from the Second Screen',
               );
               break;
           }
