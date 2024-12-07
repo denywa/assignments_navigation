@@ -34,6 +34,9 @@ class FirstScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => DynamicScreen(number: number),
+                      settings: RouteSettings(
+                        arguments: 'Hello from the First Screen',
+                      ),
                     ),
                   );
                 } else {

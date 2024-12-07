@@ -7,24 +7,42 @@ class DynamicScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String message =
+        ModalRoute.of(context)!.settings.arguments as String? ??
+            'Welcome to the Dynamic Screen';
     return Scaffold(
-      appBar: AppBar(title: Text('Dynamic Screens')),
-      body: ListView.builder(
-        itemCount: number,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('Screen ${index + 1}'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      GeneratedScreen(index: index + 1, total: number),
-                ),
-              );
-            },
-          );
-        },
+      appBar: AppBar(
+          title: const Text('Dynamic Screen'),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/first', (route) => false,
+                    arguments: 'Hello from Dynamic screen');
+              },
+              icon: Icon(Icons.arrow_back))),
+      body: Column(
+        children: [
+          Text(message),
+          Expanded(
+            child: ListView.builder(
+              itemCount: number,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text('Screen ${index + 1}'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            GeneratedScreen(index: index + 1, total: number),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -53,7 +71,7 @@ class GeneratedScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('This is screen number $index'),
-            if (index < total) // Check if there is a next screen
+            if (index < total)
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
@@ -67,7 +85,7 @@ class GeneratedScreen extends StatelessWidget {
                 },
                 child: Text('Go to Next Screen'),
               ),
-            if (index == total) // If it's the last screen
+            if (index == total)
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamedAndRemoveUntil(
